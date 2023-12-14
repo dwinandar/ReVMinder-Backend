@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use;
+// app.use;
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use(routes);
 
-const PORT = 5050;
+const PORT = 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
