@@ -175,16 +175,21 @@ async function getTotalMobil(req, res) {
   try {
     const decodedToken = jwt.verify(req.cookies.token, "secret_key");
     const id_user = decodedToken.userId;
-    const sql = "SELECT COUNT(*) FROM mobil WHERE id_user = ?";
+    const sql = "SELECT COUNT(*) AS count FROM mobil WHERE id_user = ?";
     const result = await query(sql, [id_user]);
 
-    if (!result) return res.json({ Message: "Error terjadi didalam server" });
-    return res.json(result);
+    if (result.length === 0 || !result[0].count) {
+      return res.status(404).json({ Message: "Data tidak ditemukan" });
+    }
+
+    return res.json(result[0].count);
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json("Token telah kedaluwarsa");
     }
-    return res.status(500).json("Ada kesalahan dalam verifikasi token");
+    return res
+      .status(500)
+      .json("Ada kesalahan dalam verifikasi token atau query SQL");
   }
 }
 
@@ -192,16 +197,21 @@ async function getTotalMotor(req, res) {
   try {
     const decodedToken = jwt.verify(req.cookies.token, "secret_key");
     const id_user = decodedToken.userId;
-    const sql = "SELECT COUNT(*) FROM motor WHERE id_user = ?";
+    const sql = "SELECT COUNT(*) AS count FROM motor WHERE id_user = ?";
     const result = await query(sql, [id_user]);
 
-    if (!result) return res.json({ Message: "Error terjadi didalam server" });
-    return res.json(result);
+    if (result.length === 0 || !result[0].count) {
+      return res.status(404).json({ Message: "Data tidak ditemukan" });
+    }
+
+    return res.json(result[0].count);
   } catch (error) {
     if (error.name === "TokenExpiredError") {
       return res.status(401).json("Token telah kedaluwarsa");
     }
-    return res.status(500).json("Ada kesalahan dalam verifikasi token");
+    return res
+      .status(500)
+      .json("Ada kesalahan dalam verifikasi token atau query SQL");
   }
 }
 
