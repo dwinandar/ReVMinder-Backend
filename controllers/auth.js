@@ -20,15 +20,24 @@ async function registerUser(req, res) {
     return res.status(400).json("Data Input Tidak Benar!");
 
   try {
-    const isDuplicate = await query(
+    const isUsernameDuplicate = await query(
       `
-        SELECT id FROM users WHERE username = ? OR email = ? 
+        SELECT id FROM users WHERE username = ?  
     `,
-      [username, email],
+      [username],
+    );
+    const isEmailDuplicate = await query(
+      `
+        SELECT id FROM users WHERE email = ?  
+    `,
+      [email],
     );
 
-    if (isDuplicate.length > 0)
-      return res.status(400).json("Username atau Email Sudah Digunakan!");
+    if (isUsernameDuplicate.length > 0)
+      return res.status(400).json("Username Sudah Digunakan!");
+
+    if (isEmailDuplicate.length > 0)
+      return res.status(400).json("Email Sudah Digunakan!");
 
     const salt = await bcrypt.genSalt(12);
     const hash = await bcrypt.hash(password, salt);

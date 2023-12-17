@@ -6,5 +6,6 @@ const vehicle = require("./vehicle");
 
 app.use("/", auth);
 app.use("/vehicle", vehicle);
+// app.use("/service", vehicle);
 
 module.exports = app;
