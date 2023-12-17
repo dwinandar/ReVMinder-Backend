@@ -83,7 +83,7 @@ async function loginUser(req, res) {
     );
     res.cookie("token", token);
 
-    return res.status(200).json({ token });
+    return res.status(200).json({ token, "cookie": res.cookie });
   } catch (error) {
     return res.status(400).json("Ada Sesuatu Yang salah!");
   }
