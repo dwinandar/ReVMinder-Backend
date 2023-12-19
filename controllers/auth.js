@@ -98,4 +98,27 @@ async function loginUser(req, res) {
   }
 }
 
-module.exports = { registerUser, loginUser };
+async function verifyUser(req, res, next) {
+  const token = req.cookies.token;
+  const secretKey = "secret_key"; // Ganti dengan secret key yang sama dengan saat sign token
+
+  if (!token) {
+    return res.status(401).json({ message: "Please Provide Token" });
+  } else {
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: "Token tidak valid" });
+      }
+      req.user = decoded;
+      next();
+    });
+  }
+}
+
+// Fungsi untuk mendapatkan data user berdasarkan token yang diverifikasi
+async function getUserData(req, res) {
+  const username = req.user.username;
+  res.json({ username });
+}
+
+module.exports = { registerUser, loginUser, verifyUser, getUserData };
