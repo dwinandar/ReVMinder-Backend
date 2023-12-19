@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: ["http://localhost:5173"],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "UPDATE", "DELETE"],
     credentials: true,
   }),
 );
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use(routes);
 
-const PORT = 8080;
+const PORT = 5050;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -90,9 +90,12 @@ async function loginUser(req, res) {
       "secret_key",
       { expiresIn: "1h" },
     );
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      // httpOnly: true,
+      maxAge: 1 * 60 * 60 * 1000
+    });
 
-    return res.status(200).json({ token, "cookie": res.cookie });
+    return res.status(200).json({ token });
   } catch (error) {
     return res.status(400).json("Ada Sesuatu Yang salah!");
   }

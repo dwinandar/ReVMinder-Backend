@@ -8,7 +8,6 @@ async function getMobilData(req, res) {
     const id_user = jwt.verify(req.cookies.token, "secret_key").userId;
     const sql = "SELECT * FROM mobil WHERE id_user = ?";
     const data = await query(sql, [id_user]);
-    console.log(data);
     return res.json(data);
   } catch (error) {
     console.log(error);
@@ -21,7 +20,6 @@ async function getMotorData(req, res) {
     const id_user = jwt.verify(req.cookies.token, "secret_key").userId;
     const sql = "SELECT * FROM motor WHERE id_user = ?";
     const data = await query(sql, [id_user]);
-    console.log(data);
     return res.json(data);
   } catch (error) {
     console.log(error);
@@ -126,7 +124,7 @@ async function getMobilDataById(req, res) {
   const id = req.params.id;
 
   const data = await query(sql, [id]);
-  if (!data) return res.json({ Message: "Error Inside Server" });
+  if (!data) return res.json({ msg: "Error Inside Server" });
   return res.json(data);
 }
 
@@ -135,7 +133,7 @@ async function getMotorDataById(req, res) {
   const id = req.params.id;
 
   const data = await query(sql, [id]);
-  if (!data) return res.json({ Message: "Error Inside Server" });
+  if (!data) return res.json({ msg: "Error Inside Server" });
   return res.json(data);
 }
 
@@ -151,7 +149,7 @@ async function deleteMobilById(req, res) {
     return res.status(200).json("Motor berhasil dihapus");
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ Message: "Internal Server Error" });
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 }
 
@@ -165,7 +163,7 @@ async function deleteMotorById(req, res) {
     return res.status(200).send().json("Motor berhasil dihapus");
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ Message: "Internal Server Error" });
+    return res.status(500).json({ msg: "Internal Server Error" });
   }
 }
 
@@ -177,9 +175,10 @@ async function getTotalMobil(req, res) {
     const id_user = decodedToken.userId;
     const sql = "SELECT COUNT(*) AS count FROM mobil WHERE id_user = ?";
     const result = await query(sql, [id_user]);
+    console.log(id_user)
 
     if (result.length === 0 || !result[0].count) {
-      return res.status(404).json({ Message: "Data tidak ditemukan" });
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
     return res.json(result[0].count);
@@ -201,7 +200,7 @@ async function getTotalMotor(req, res) {
     const result = await query(sql, [id_user]);
 
     if (result.length === 0 || !result[0].count) {
-      return res.status(404).json({ Message: "Data tidak ditemukan" });
+      return res.status(404).json({ msg: "Data tidak ditemukan" });
     }
 
     return res.json(result[0].count);
