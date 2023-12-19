@@ -2,12 +2,17 @@ const query = require("../database");
 
 const addService = async (req, res) => {
   const id = req.params.id;
+  const vehicle = req.params.vehicle;
   const { tanggal, jarak, biaya, kategori, dikerjakan, keterangan } = req.body;
 
   const result = await query(
-    `INSERT INTO layanan (id_kendaraan, tanggal, jarak, biaya, kategori, dikerjakan, keterangan) VALUES (?, ?, ?, ?, ? , ? , ?)`,
-    [id, tanggal, jarak, biaya, kategori, dikerjakan, keterangan],
+    `INSERT INTO layanan_${vehicle} (tanggal, jarak, biaya, kategori, dikerjakan, keterangan, id_${vehicle}) VALUES (?, ?, ?, ?, ? , ? , ?)`,
+    [tanggal, jarak, biaya, kategori, dikerjakan, keterangan, id]
   );
+  // const result = await query(
+  //   `INSERT INTO layanan (id_kendaraan, tanggal, jarak, biaya, kategori, dikerjakan, keterangan) VALUES (?, ?, ?, ?, ? , ? , ?)`,
+  //   [id, tanggal, jarak, biaya, kategori, dikerjakan, keterangan],
+  // );
   if (result) {
     console.log(result);
     return res.status(201).json(result);
@@ -18,8 +23,9 @@ const addService = async (req, res) => {
 
 const getService = async (req, res) => {
   const id = req.params.id;
+  const vehicle = req.params.vehicle
   const result = await query(
-    `SELECT * FROM layanan WHERE id_kendaraan= ?`
+    `SELECT * FROM layanan_${vehicle} WHERE id_${vehicle}= ?`
     , [id]
   );
   if (result) {
@@ -40,9 +46,52 @@ const getMobilById = async (req, res) => {
 };
 
 
+const addPengingat = async (req, res) => {
+  const id = req.params.id;
+  const vehicle = req.params.vehicle;
+
+  const { tanggal, kategori, ingatkan } = req.body;
+
+  const result = await query(
+    `INSERT INTO pengingat_${vehicle} ( id_${vehicle}, tanggal, kategori, ingatkan) VALUES (?, ?, ?, ?)`,
+    [id, tanggal, kategori, ingatkan]
+  );
+
+  if (result) {
+    console.log(result);
+    return res.status(201).json(result);
+  } else {
+    return res.json("Gagal menambahkan pengingat");
+  }
+
+
+}
+
+const getPengingat = async (req, res) => {
+  const id = req.params.id;
+  const vehicle = req.params.vehicle;
+
+  const result = await query(
+    `SELECT tanggal, kategori, ingatkan FROM pengingat_${vehicle} WHERE id_${vehicle} = ?`
+    ,
+    [id]
+  );
+  console.log(result);
+
+  if (result) {
+    console.log(result);
+    return res.status(201).json(result);
+  } else {
+    return res.json("Gagal menampilkan pengingat");
+  }
+
+}
+
 
 module.exports = {
   addService,
   getService,
-  getMobilById
+  getMobilById,
+  addPengingat,
+  getPengingat
 }

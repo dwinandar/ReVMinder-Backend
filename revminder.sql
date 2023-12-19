@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Dec 10, 2023 at 10:07 PM
--- Server version: 8.0.30
--- PHP Version: 8.1.10
+-- Host: 127.0.0.1
+-- Generation Time: Dec 19, 2023 at 08:20 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,22 +28,15 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `layanan` (
-  `id` int NOT NULL,
-  `id_mobil` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `id_kendaraan` int(11) DEFAULT NULL,
   `tanggal` datetime DEFAULT NULL,
-  `jarak` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `biaya` int DEFAULT NULL,
-  `kategori` varchar(40) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dikerjakan` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `keterangan` text COLLATE utf8mb4_general_ci
+  `jarak` varchar(50) DEFAULT NULL,
+  `biaya` int(11) DEFAULT NULL,
+  `kategori` varchar(40) DEFAULT NULL,
+  `dikerjakan` varchar(20) NOT NULL,
+  `keterangan` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `layanan`
---
-
-INSERT INTO `layanan` (`id`, `id_mobil`, `tanggal`, `jarak`, `biaya`, `kategori`, `dikerjakan`, `keterangan`) VALUES
-(8, NULL, '2023-12-07 10:03:00', '20 kM', 10, 'Aki', 'bengkel', 'Montirnya ga worth it');
 
 -- --------------------------------------------------------
 
@@ -52,18 +45,18 @@ INSERT INTO `layanan` (`id`, `id_mobil`, `tanggal`, `jarak`, `biaya`, `kategori`
 --
 
 CREATE TABLE `mobil` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `nama_pemilik` text COLLATE utf8mb4_general_ci NOT NULL,
-  `no_pol` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_kendaraan` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
-  `merek` text COLLATE utf8mb4_general_ci NOT NULL,
-  `model` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
-  `transmisi` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
-  `tahun` int NOT NULL,
-  `warna` text COLLATE utf8mb4_general_ci NOT NULL,
-  `jenis` text COLLATE utf8mb4_general_ci NOT NULL,
-  `produk` text COLLATE utf8mb4_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nama_pemilik` text NOT NULL,
+  `no_pol` varchar(30) NOT NULL,
+  `nama_kendaraan` varchar(40) NOT NULL,
+  `merek` text NOT NULL,
+  `model` varchar(40) NOT NULL,
+  `transmisi` varchar(25) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `warna` text NOT NULL,
+  `jenis` text NOT NULL,
+  `produk` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -83,18 +76,18 @@ INSERT INTO `mobil` (`id`, `id_user`, `nama_pemilik`, `no_pol`, `nama_kendaraan`
 --
 
 CREATE TABLE `motor` (
-  `id` int NOT NULL,
-  `id_user` int NOT NULL,
-  `nama_pemilik` text COLLATE utf8mb4_general_ci NOT NULL,
-  `no_pol` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `nama_kendaraan` char(40) COLLATE utf8mb4_general_ci NOT NULL,
-  `merek` text COLLATE utf8mb4_general_ci NOT NULL,
-  `model` char(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `transmisi` varchar(30) COLLATE utf8mb4_general_ci NOT NULL,
-  `tahun` int NOT NULL,
-  `warna` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `jenis` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `produk` varchar(20) COLLATE utf8mb4_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `nama_pemilik` text NOT NULL,
+  `no_pol` varchar(30) NOT NULL,
+  `nama_kendaraan` char(40) NOT NULL,
+  `merek` text NOT NULL,
+  `model` char(20) NOT NULL,
+  `transmisi` varchar(30) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `warna` varchar(20) NOT NULL,
+  `jenis` varchar(20) NOT NULL,
+  `produk` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -107,16 +100,30 @@ INSERT INTO `motor` (`id`, `id_user`, `nama_pemilik`, `no_pol`, `nama_kendaraan`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pengingat`
+--
+
+CREATE TABLE `pengingat` (
+  `tanggal` datetime NOT NULL,
+  `kategori` varchar(50) NOT NULL,
+  `ingatkan` varchar(30) NOT NULL,
+  `id_kendaraan` int(11) NOT NULL,
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nowa` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
-  `alamat` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL
+  `id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nowa` varchar(15) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -136,7 +143,9 @@ INSERT INTO `users` (`id`, `username`, `email`, `nowa`, `alamat`, `password`) VA
 (38, 'nodokyfyly', 'jemadak@mailinator.com', '089798722323', 'Magnam ipsum in eos', '$2b$12$E5MTxrJ3nHRLk3YM03ovK.GfmayHurksQUy9btZTinsNTDWTUy5mK'),
 (39, 'yunanasd', 'asdesdsda@gmail.com', '0897264812321', 'Voluptas qui culpa a', '$2b$12$ojPdYjTKlBgRci9AEVronOXxRzmsi.11MXrhbQxeRE7QRvGUciQDq'),
 (40, 'qyvyl', 'lorusoci@mailinator.com', '08979684546', 'Illum itaque proide', '$2b$12$E4ybh4yzIaohTrkS4adDMOE4BVDCJnOm4wlq/G8/iHHzxQnUFvWJq'),
-(41, 'bangandy', 'andy@mailinator.com', '08978676436', 'At alias a consequat', '$2b$12$VfREAu1xj.jAiCJCui5P8eMYnHxaeAGOwzY37ZeSiUkU7.NHoOh9K');
+(41, 'bangandy', 'andy@mailinator.com', '08978676436', 'At alias a consequat', '$2b$12$VfREAu1xj.jAiCJCui5P8eMYnHxaeAGOwzY37ZeSiUkU7.NHoOh9K'),
+(42, 'dudul', 'dudul@reply.com', '89898989', 'Madiun', '$2b$12$YfRy3sCxTk.51Z9lC655iem6uhPjU5PIzhLS/vVgoIjqhhJfVQz16'),
+(43, 'nafid', 'nafid123@reply.com', '1210292', 'genuk', '$2b$12$qE6Fq.hH//EWezYzg92aiuJx7vbW/dm7VNohq5N6Mi3C.ZGbGHK1e');
 
 --
 -- Indexes for dumped tables
@@ -147,7 +156,7 @@ INSERT INTO `users` (`id`, `username`, `email`, `nowa`, `alamat`, `password`) VA
 --
 ALTER TABLE `layanan`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_mobil` (`id_mobil`);
+  ADD KEY `id_mobil` (`id_kendaraan`);
 
 --
 -- Indexes for table `mobil`
@@ -164,6 +173,13 @@ ALTER TABLE `motor`
   ADD KEY `id_user` (`id_user`);
 
 --
+-- Indexes for table `pengingat`
+--
+ALTER TABLE `pengingat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_kendaraan` (`id_kendaraan`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -178,25 +194,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `layanan`
 --
 ALTER TABLE `layanan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `mobil`
 --
 ALTER TABLE `mobil`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `motor`
 --
 ALTER TABLE `motor`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- Constraints for dumped tables
@@ -206,19 +222,27 @@ ALTER TABLE `users`
 -- Constraints for table `layanan`
 --
 ALTER TABLE `layanan`
-  ADD CONSTRAINT `layanan_ibfk_1` FOREIGN KEY (`id_mobil`) REFERENCES `mobil` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `layanan_ibfk_1` FOREIGN KEY (`id_kendaraan`) REFERENCES `mobil` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `layanan_ibfk_2` FOREIGN KEY (`id_kendaraan`) REFERENCES `motor` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `mobil`
 --
 ALTER TABLE `mobil`
-  ADD CONSTRAINT `mobil_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `mobil_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `motor`
 --
 ALTER TABLE `motor`
-  ADD CONSTRAINT `motor_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `motor_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `pengingat`
+--
+ALTER TABLE `pengingat`
+  ADD CONSTRAINT `pengingat_ibfk_1` FOREIGN KEY (`id_kendaraan`) REFERENCES `mobil` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  ADD CONSTRAINT `pengingat_ibfk_2` FOREIGN KEY (`id_kendaraan`) REFERENCES `motor` (`id`), ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

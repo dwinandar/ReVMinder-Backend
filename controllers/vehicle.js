@@ -146,7 +146,7 @@ async function deleteMobilById(req, res) {
 
     await query(sql, [id]);
 
-    return res.status(200).json("Motor berhasil dihapus");
+    return res.status(200).json("Mobil berhasil dihapus");
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal Server Error" });
@@ -160,7 +160,7 @@ async function deleteMotorById(req, res) {
 
     await query(sql, [id]);
 
-    return res.status(200).send().json("Motor berhasil dihapus");
+    return res.status(200).json("Motor berhasil dihapus");
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Internal Server Error" });
