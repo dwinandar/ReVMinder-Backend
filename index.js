@@ -12,7 +12,7 @@ app.use;
 app.use(
   cors({
     origin: ["http://localhost:5173"],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "UPDATE", "DELETE"],
     credentials: true,
   }),
 );

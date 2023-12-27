@@ -88,9 +88,12 @@ async function loginUser(req, res) {
     const token = jwt.sign(
       { userId: user[0].id, username: user[0].username },
       "secret_key",
-      { expiresIn: "1h" },
+      { expiresIn: "1d" },
     );
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      // httpOnly: true,
+      maxAge: 1 * 60 * 60 * 1000,
+    });
 
     return res.status(200).json({ token });
   } catch (error) {
@@ -121,4 +124,29 @@ async function getUserData(req, res) {
   res.json({ username });
 }
 
-module.exports = { registerUser, loginUser, verifyUser, getUserData };
+async function getUser(req, res) {
+  const id = req.user.userId;
+  const result = await query(
+    `SELECT username, email, nowa, alamat FROM users where id=?`,
+    [id],
+  );
+  if (result) {
+    res.json({ result });
+  } else {
+    res.status(404).json("Terjadi kesalahan");
+  }
+}
+
+async function logout(req, res) {
+  res.clearCookie("token");
+  return res.json("Logout Successfully");
+}
+
+module.exports = {
+  registerUser,
+  loginUser,
+  verifyUser,
+  getUserData,
+  getUser,
+  logout,
+};
